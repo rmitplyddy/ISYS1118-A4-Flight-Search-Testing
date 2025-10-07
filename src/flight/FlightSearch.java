@@ -1,4 +1,4 @@
-//package flight;
+package flight;
 
 public class FlightSearch {
    private String  departureDate;
