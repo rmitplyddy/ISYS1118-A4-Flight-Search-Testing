@@ -39,8 +39,12 @@ class TotalPassengerTest {
 	}
 
 	
+	
+	
+	
 	public boolean searchPassengers(int adults, int children, int infants) {
 		// Helper method to run flight search with given passenger counts
+		// sets up the fixed attributes for flight search to accept passenger values
 		return fs.runFlightSearch(departureDate, departureAirportCode, 
 		emergencyRowSeating, returnDate, destinationAirportCode, seatingClass, 
 		adults, children, infants);
