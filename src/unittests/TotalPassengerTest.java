@@ -5,7 +5,12 @@ package unittests;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 
+
+import javax.swing.text.DateFormatter;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -22,10 +27,10 @@ import flight.FlightSearch;
 class TotalPassengerTest {
 
 	private FlightSearch fs;
-	private String  departureDate = LocalDate.now().plusDays(1).toString(); // Set to tomorrow's date
+	private String  departureDate; // Set to tomorrow's date
    	private String  departureAirportCode = "syd";
    	private boolean emergencyRowSeating = false;
-   	private String  returnDate = LocalDate.now().plusDays(7).toString(); // Set to the day after tomorrow's date
+   	private String  returnDate; // Set to the day after tomorrow's date
    	private String  destinationAirportCode = "mel"; 
    	private String  seatingClass = "economy";
    	private int adultPassengerCount;
@@ -40,11 +45,27 @@ class TotalPassengerTest {
 
 	
 	
+	public String generateValidDeptDate() {
+		// return a string value of the expected valid departure date
+		DateTimeFormatter df = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+		LocalDate depDate = LocalDate.now().plusDays(1);
+		return df.format(depDate);
+	}
+
+	public String generateValidReturnDate() {
+		// return a string value of the expected valid return date
+		DateTimeFormatter df = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+		LocalDate retDate = LocalDate.now().plusDays(7);
+		return df.format(retDate);
+	}
+
 	
 	
 	public boolean searchPassengers(int adults, int children, int infants) {
 		// Helper method to run flight search with given passenger counts
 		// sets up the fixed attributes for flight search to accept passenger values
+		departureDate = generateValidDeptDate();
+		returnDate = generateValidReturnDate();
 		return fs.runFlightSearch(departureDate, departureAirportCode, 
 		emergencyRowSeating, returnDate, destinationAirportCode, seatingClass, 
 		adults, children, infants);
