@@ -1,1 +1,21 @@
-/bin/
+
+# from eclipse
+.classpath
+.project
+.settings/
+
+# Compiled output
+bin/
+*.class
+
+# OS-specific
+.DS_Store
+Thumbs.db
+*~
+
+# my IDE specs
+.metadata/
+.recommenders/
+RemoteSystemsTempFiles/
+
+*.log

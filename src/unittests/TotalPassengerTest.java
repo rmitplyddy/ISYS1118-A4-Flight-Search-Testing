@@ -1,4 +1,7 @@
 package unittests;
+
+
+
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.time.LocalDate;
@@ -11,6 +14,9 @@ import flight.FlightSearch;
 
 
 //	Condition 1. The total number of passenger per search must be at least 1 and cannot exceed 9.
+
+
+// [NOTE]: set any other tests - characters in passenger count fields, negative numbers, zero, decimal points, special characters ??
 
 
 class TotalPassengerTest {
