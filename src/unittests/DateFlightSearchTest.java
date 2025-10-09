@@ -42,11 +42,11 @@ public class DateFlightSearchTest {
 
     @Test
     public void testRejectPastDepartureDate() {
-
-//        departureDate = LocalDate.now().minusDays(1).format(DateTimeFormatter.ofPattern("dd/MM/yyyy")); // Set a past date
-//        returnDate = LocalDate.now().plusDays(7).format(DateTimeFormatter.ofPattern("dd/MM/yyyy")); // Set a future return date
-//        // assertFalse(rejectPastDepartureDate());
-//        searchDates(departureDate, returnDate);
+    	//
+        departureDate = LocalDate.now().minusDays(1).format(DateTimeFormatter.ofPattern("dd/MM/yyyy")); // Set a past date
+        returnDate = LocalDate.now().plusDays(7).format(DateTimeFormatter.ofPattern("dd/MM/yyyy")); // Set a future return date
+        // assertFalse(rejectPastDepartureDate());
+        searchDates(departureDate, returnDate);
     }
 
     // test invalid dates - YYYY/MM/DD, MM/DD/YYYY, YYYYMMDD, YYYYDDMM, etc

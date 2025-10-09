@@ -56,6 +56,9 @@ public class FlightSearch {
 
       // batch process errors
       List<String> errors = new ArrayList<>();
+      
+      
+      // --- total passenger validation --- //
 
       // condition 1: total passengers between 1 and 9
 
@@ -69,6 +72,10 @@ public class FlightSearch {
          this.infantPassengerCount = infantPassengerCount;
       }
 
+      
+      // --- children validation --- //
+      
+      
       //	Condition 2. Children cannot be seated in emergency row seating or first class. (inclusive of infants - first class?)
       if (childPassengerCount > 0 && (emergencyRowSeating || 
                      seatingClass.equalsIgnoreCase("first"))) {
@@ -91,7 +98,11 @@ public class FlightSearch {
       if (infantPassengerCount > adultPassengerCount) {
          errors.add("Each infant must be seated on an accompanying adult's lap");
       }
-
+      
+      
+      
+      // -- Date validation -- //
+     
      LocalDate depDate = utility.InputHandler.parseDate(departureDate);
      LocalDate retDate = utility.InputHandler.parseDate(returnDate);
 
