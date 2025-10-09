@@ -20,10 +20,10 @@ import flight.FlightSearch;
 class TotalPassengerTest {
 
 	private FlightSearch fs;
-	private String  departureDate = TestDataGenerator.generateValidDeptDate();; // Set to tomorrow's date
+	private String  departureDate = TestDataGenerator.generateValidDeptDate(); // Set to tomorrow's date
    	private String  departureAirportCode = "syd";
    	private boolean emergencyRowSeating = false;
-   	private String  returnDate = TestDataGenerator.generateValidReturnDate();; // Set to the day after tomorrow's date
+   	private String  returnDate = TestDataGenerator.generateValidReturnDate(); // Set to the day after tomorrow's date
    	private String  destinationAirportCode = "mel"; 
    	private String  seatingClass = "economy";
    	private int adultPassengerCount;
@@ -36,12 +36,12 @@ class TotalPassengerTest {
 		fs = new FlightSearch();
 	}
 	
-	public boolean searchPassengers(int adults, int children, int infants) {
+	public boolean searchPassengers() {
 		// Helper method to run flight search with given passenger counts
 		// sets up the fixed attributes for flight search to accept passenger values
 		return fs.runFlightSearch(departureDate, departureAirportCode, 
 		emergencyRowSeating, returnDate, destinationAirportCode, seatingClass, 
-		adults, children, infants);
+		adultPassengerCount, childPassengerCount, infantPassengerCount);
 	}
 
 
@@ -52,8 +52,7 @@ class TotalPassengerTest {
 		adultPassengerCount = 0;
 		childPassengerCount = 0;
 		infantPassengerCount = 0;
-		assertFalse(searchPassengers(adultPassengerCount, childPassengerCount, 
-			infantPassengerCount));
+		assertFalse(searchPassengers());
 	}
 
 	@Test
@@ -62,18 +61,19 @@ class TotalPassengerTest {
 		adultPassengerCount = 4;
 		childPassengerCount = 4;
 		infantPassengerCount = 2;
-		assertFalse(searchPassengers(adultPassengerCount, childPassengerCount, 
-			infantPassengerCount));
+		assertFalse(searchPassengers());
 	}
 
 	@Test
 	void acceptValidMidPassengerCount() {
 		// Test with 5 passengers
+		// variables will be set when valid
 		adultPassengerCount = 2;
 		childPassengerCount = 2;
 		infantPassengerCount = 1;
-		assertTrue(searchPassengers(adultPassengerCount, childPassengerCount, 
-			infantPassengerCount));
+		assertEquals(adultPassengerCount, fs.getAdultPassengerCount());
+		assertEquals(childPassengerCount, fs.getChildPassengerCount());
+		assertEquals(infantPassengerCount, fs.getInfantPassengerCount());
 	}
 
 	@Test
@@ -83,19 +83,22 @@ class TotalPassengerTest {
 		adultPassengerCount = 1;
 		childPassengerCount = 0;
 		infantPassengerCount = 0;
-		assertTrue(searchPassengers(adultPassengerCount, childPassengerCount, 
-			infantPassengerCount));
+		assertTrue(searchPassengers());
 	}
 
 	@Test
 	void acceptValidMostPassengerCount() {
 		// Test with 9 passengers
 		// maximum acceptance case is nine passengers and must be accepted
+		// variables will be set when valid
 		adultPassengerCount = 5;
 		childPassengerCount = 3;
 		infantPassengerCount = 1;
-		assertTrue(searchPassengers(adultPassengerCount, childPassengerCount, 
-			infantPassengerCount));
+		searchPassengers();
+		assertEquals(adultPassengerCount, fs.getAdultPassengerCount());
+		assertEquals(childPassengerCount, fs.getChildPassengerCount());
+		assertEquals(infantPassengerCount, fs.getInfantPassengerCount());
+
 
 	}
 }

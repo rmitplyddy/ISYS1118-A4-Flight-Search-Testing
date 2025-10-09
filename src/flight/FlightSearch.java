@@ -49,7 +49,10 @@ public class FlightSearch {
 
 
 
-   public boolean runFlightSearch(String departureDate, String departureAirportCode, boolean emergencyRowSeating, String returnDate,       String destinationAirportCode, String seatingClass, int adultPassengerCount, int childPassengerCount, int infantPassengerCount) {
+   public boolean runFlightSearch(String departureDate, String departureAirportCode, 
+		   				boolean emergencyRowSeating, String returnDate, String destinationAirportCode, 
+		   				String seatingClass, int adultPassengerCount, int childPassengerCount, 
+		   				int infantPassengerCount) {
       
       boolean valid = true;
 
@@ -67,6 +70,7 @@ public class FlightSearch {
       if (totalPassengers < 1 || totalPassengers > 9) {
          errors.add("Total passengers must be between 1 and 9");
       } else {
+    	 System.out.print("\nset var\n");
          this.adultPassengerCount = adultPassengerCount;
          this.childPassengerCount = childPassengerCount;
          this.infantPassengerCount = infantPassengerCount;
@@ -148,6 +152,9 @@ public class FlightSearch {
       // 
       if (!errors.isEmpty()) {
          valid = false;
+         for (String error : errors) {
+            System.out.println("Error: " + error);
+         }
       }
 
       return valid;
