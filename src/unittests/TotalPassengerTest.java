@@ -71,6 +71,7 @@ class TotalPassengerTest {
 		adultPassengerCount = 2;
 		childPassengerCount = 2;
 		infantPassengerCount = 1;
+		searchPassengers();
 		assertEquals(adultPassengerCount, fs.getAdultPassengerCount());
 		assertEquals(childPassengerCount, fs.getChildPassengerCount());
 		assertEquals(infantPassengerCount, fs.getInfantPassengerCount());
