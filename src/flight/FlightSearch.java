@@ -21,7 +21,6 @@ public class FlightSearch {
    private static final int MAX_PASSENGERS = 9;
    private static final int MIN_PASSENGERS = 1;
    private static final int MAX_CHILDREN_PER_ADULT = 2;
-   private static final int MAX_INFANTS_PER_ADULT = 1;
 
 
    public boolean runFlightSearch(String departureDate, String departureAirportCode, 
@@ -29,27 +28,31 @@ public class FlightSearch {
 		   				String seatingClass, int adultPassengerCount, int childPassengerCount, 
 		   				int infantPassengerCount) {
 
-      
-
-      //TODO: Validate all the provided parameters.
-      //if the search parameters meets the given conditions, 
-      //   the function should initialise all the class attributes and return true.
-      //else 
-      //   the function should return false
-      
       boolean valid = true;
 
+      // error list to log all validation errors
+      // allows for batch processing of all validation rules
 
-      // batch process errors
       List<String> errors = new ArrayList<>();
       
-      // --- total passenger validation --- //
+      // validation processing based on 11 conditions
+
+      // 1. total passenger validation
       validatePassengerCounts(adultPassengerCount, childPassengerCount, infantPassengerCount, errors);
+
+      // 2. children seating validation
       validateChildrenSeating(childPassengerCount, emergencyRowSeating, seatingClass, errors);
+
+      // 3. infant seating validation
       validateInfantSeating(infantPassengerCount, emergencyRowSeating, seatingClass, errors);
+
+      // 4. children to adult ratio validation
       validateChildrenToAdultRatio(childPassengerCount, adultPassengerCount, errors);
+
+      // 5. infant to adult ratio validation
       validateInfantToAdultRatio(infantPassengerCount, adultPassengerCount, errors);
-      // --- date validation --- //
+
+      // 6, 7, 8. departure date, return date validation
       LocalDate depDate = parseDateString(departureDate, errors);
       if (depDate != null) {
          validateDepartureDate(depDate, errors);
@@ -59,18 +62,18 @@ public class FlightSearch {
          validateReturnDate(depDate, retDate, errors);
       }
 
-
+      // 9. seating class validation
       validateEmergencyRowSeating(emergencyRowSeating, seatingClass, errors);
-      validateAirportCode(departureAirportCode, errors);
-      validateAirportCode(destinationAirportCode, errors);
       
-      
+      // 10. airport code validation
+      validateAirportCode(departureAirportCode, destinationAirportCode, errors);
+
+      // 11. seating class validation
       validateSeatingClass(seatingClass, errors);
 
-
-      
-
+      // if no errors then all validations passed
       if (errors.isEmpty()) {
+         // set all attributes
          this.departureDate = departureDate;
          this.departureAirportCode = departureAirportCode;
          this.emergencyRowSeating = emergencyRowSeating;
@@ -86,14 +89,7 @@ public class FlightSearch {
          this.adultPassengerCount = -99;
          this.childPassengerCount = -99;
          this.infantPassengerCount = -99;
-         for (String error : errors) {
-            System.out.println("Error: " + error);
-            
-         }
       }
-      
-      System.out.print(getAdultPassengerCount() + "\n");
-
       return valid;
    }
 
@@ -153,7 +149,7 @@ public class FlightSearch {
 
    public void validateInfantToAdultRatio(int infantPassengerCount, 
                      int adultPassengerCount, List<String> errors) {
-      if (infantPassengerCount > adultPassengerCount * MAX_INFANTS_PER_ADULT) {
+      if (infantPassengerCount > adultPassengerCount) {
          errors.add("Each infant must be seated on an accompanying adult's lap");
       }
    }
@@ -178,7 +174,7 @@ public class FlightSearch {
       LocalDate validDate = null;
       try {
          // Parse the date string with strict resolver style
-         
+         // this method requires uuuu for the year for strict resolver style
          DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/uuuu")
                   .withResolverStyle(ResolverStyle.STRICT);
          validDate = LocalDate.parse(dateStr, formatter);
@@ -231,6 +227,7 @@ public class FlightSearch {
    // condition 11. Only the following airports are available: "syd" (Sydney), "mel" (Melbourne),
 
    public void validateAirportCode(String departureAirportCode, String arrivalAirportCode, List<String> errors) {
+
       ArrayList<String> validAirportCodes = new ArrayList<>();
       validAirportCodes.add("syd");
       validAirportCodes.add("mel");
@@ -240,10 +237,11 @@ public class FlightSearch {
       validAirportCodes.add("pvg");
       validAirportCodes.add("doh");
 
+      // check both airport codes are valid
       if (!(validAirportCodes.contains(departureAirportCode.toLowerCase()) && 
           validAirportCodes.contains(arrivalAirportCode.toLowerCase()))) {
          errors.add("Invalid airport code: " + departureAirportCode);
-      }
+      } // check both airport codes are not the same
       else if (departureAirportCode.equalsIgnoreCase(arrivalAirportCode)) {
          errors.add("Departure and destination airport cannot be the same");
       }
