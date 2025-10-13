@@ -1,9 +1,14 @@
 package unittests;
 
+import java.util.ArrayList;
+import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import flight.FlightSearch;
 
@@ -25,77 +30,96 @@ class AirportCodeTest {
    	private int adultPassengerCount;
 	private int childPassengerCount;
 	private int infantPassengerCount;
+	private List<String> errors;
+	private String expectedError;
 
 	@BeforeEach
 	void setUp() throws Exception {
 		fs = new FlightSearch();
+		errors = new ArrayList<>();	
 	}
 
-	public boolean searchAirports() {
-		// Helper method to run flight search with given airport codes
-		// sets up the fixed attributes for flight search to accept airport values
-		return fs.runFlightSearch(departureDate, departureAirportCode, 
-		emergencyRowSeating, returnDate, destinationAirportCode, seatingClass, 
-		adultPassengerCount, childPassengerCount, infantPassengerCount);
-	}
+	// public boolean searchAirports() {
+	// 	// Helper method to run flight search with given airport codes
+	// 	// sets up the fixed attributes for flight search to accept airport values
+	// 	return fs.runFlightSearch(departureDate, departureAirportCode, 
+	// 	emergencyRowSeating, returnDate, destinationAirportCode, seatingClass, 
+	// 	adultPassengerCount, childPassengerCount, infantPassengerCount);
+	// }
 
-	@Test
-	void acceptValidAirportCodes() {
+	@ParameterizedTest
+    @CsvSource({"syd, mel", "lax, cdg", "del, pvg", "doh, syd"})
+    public void acceptValidCombinations(String dep, String arr) {
+        fs.validateAirportCode(dep, arr, errors);
+        assertTrue(errors.isEmpty());
+    }
 
-		// Test with valid departure and destination airport codes
-		// each valid code is tested in combination with another valid code
-		// in either departure or destination
-		// not all combinations are tested - only to ensure valid codes are accepted
-		// valid codes: syd, mel, lax, cdg, del, pvg, doh
 
-		departureAirportCode = "syd"; 
-		destinationAirportCode = "mel";
-		assertTrue(searchAirports());
 
-		departureAirportCode = "lax"; 
-		destinationAirportCode = "cdg"; 
-		assertTrue(searchAirports());
 
-		departureAirportCode = "del"; 
-		destinationAirportCode = "pvg";
-		assertTrue(searchAirports());
+	// @Test
+	// public void acceptSydtoMel() {
+	// 	// Test with valid departure and destination airport codes
+	// 	departureAirportCode = "syd"; 
+	// 	destinationAirportCode = "mel";
+	// 	fs.validateAirportCode(departureAirportCode, errors);
+	// 	assertTrue(errors.isEmpty());
+	// }
 
-		departureAirportCode = "doh";
-		destinationAirportCode = "syd"; 
-		assertTrue(searchAirports());
+	// @Test
+	// public void acceptLaxtoCdg() {
+	// 	// Test with valid departure and destination airport codes
+	// 	departureAirportCode = "lax"; 
+	// 	destinationAirportCode = "cdg"; 
+	// 	fs.validateAirportCode(departureAirportCode, errors);
+	// 	assertTrue(errors.isEmpty());
+	// }
 
-	}
+	// @Test
+	// public void acceptDeltoPvg() {
+	// 	// Test with valid departure and destination airport codes
+	// 	departureAirportCode = "del"; 
+	// 	destinationAirportCode = "pvg";
+	// 	fs.validateAirportCode(departureAirportCode, errors);
+	// 	assertTrue(errors.isEmpty());
+	// }
+
+	// @Test
+	// public void acceptDohToSyd() {
+	// 	// Test with valid departure and destination airport codes
+	// 	departureAirportCode = "doh"; 
+	// 	destinationAirportCode = "syd";
+	// 	fs.validateAirportCode(departureAirportCode, errors);
+	// 	assertTrue(errors.isEmpty());
+	// }
 
 	@Test
 	public void rejectSameDepartureAndDestinationAirportCode() {
 		// Test with the same departure and destination airport codes
 		departureAirportCode = "mel";
 		destinationAirportCode = "mel";
-		assertFalse(searchAirports());
+		fs.validateAirportCode(departureAirportCode, destinationAirportCode, errors);
+		expectedError = "Departure and destination airport codes cannot be the same";
+		assertEquals(expectedError, errors.get(0), "error message");
 
 		// test with a different valid code
 		// to ensure the function departure and destination variables are set
 		// correctly.
 		departureAirportCode = "lax"; // Valid code
 		destinationAirportCode = "mel"; // Same as departure code
-		assertNotEquals(fs.getDepartureAirportCode(), fs.getDestinationAirportCode());
+		fs.validateAirportCode(departureAirportCode, destinationAirportCode, errors);
+		assertTrue(errors.isEmpty());
 
 	}
 
 	@Test
 	void rejectInvalidDepartureAirportCode() {
+
+		String departureAirportCode = "abc"; // Invalid code
+		String arrivalAirportCode = "xyz"; // Invalid code
+		expectedError = "Invalid airport code: " + departureAirportCode;
 		// Test with an invalid departure airport code
-		departureAirportCode = "abc"; // Invalid code
-		destinationAirportCode = "mel"; // Valid code
-		assertFalse(searchAirports());
+		fs.validateAirportCode(departureAirportCode, arrivalAirportCode, errors);
+		assertEquals(expectedError, errors.get(0));
 	}
-
-	@Test
-	void rejectInvalidDestinationAirportCode() {
-		// Test with an invalid destination airport code
-		departureAirportCode = "syd"; // Valid code
-		destinationAirportCode = "xyz"; // Invalid code
-		assertFalse(searchAirports());
-	}
-
 }

@@ -1,26 +1,34 @@
+/**
+ * Test class to validate the seating arrangements for child and infant passengers.
+ * 
+ * This class contains unit tests to ensure that the flight search
+ * functionality correctly handles various seating scenarios for children
+ * and infants, including restrictions on seating classes and proximity to
+ * adult passengers.
+ * 
+ * The tests cover the following conditions:
+ * 1. Children cannot be seated in emergency row seating or first class.
+ * 2. Infants cannot be seated in emergency row seating or business class.
+ * 3. All children (aged 2-11 years old) must be seated immediately next to at 
+ * least one adult passenger (up to 2 children per adult).
+ * 4. Each infant (<2 years old) must be seated on an accompanying adult's lap 
+ * (only one infant is allowed per adult).
+ * 
+ * @author Phil Lyddy
+ */
+
+
+
 package unittests;
 
 import static org.junit.jupiter.api.Assertions.*;
+
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 
 import flight.FlightSearch;
 
-
-
-
-
-
-//	Condition 2. Children cannot be seated in emergency row seating or first class.
-//
-//	Condition 3. Infants cannot be seated in emergency row seating or business class.
-//
-//	Condition 4. All children (aged 2-11 years old) must be seated immediately next to at least one adult passenger 
-//	(ie up to 2 children per adult). eg if the adult passenger count is 2, then up to 4 child passengers are allowed.
-//
-//	Condition 5. Each infant (<2 years old) must be seated on an accompanying adults lap (only one infant is allowed per adult)
-//
 
 
 
@@ -38,6 +46,7 @@ class ChildrenPassengerTest {
    	private int adultPassengerCount;
 	private int childPassengerCount;
 	private int infantPassengerCount;
+	private static final int UNINITIALISED_INT = -99;
 
 
 	@BeforeEach
@@ -59,20 +68,33 @@ class ChildrenPassengerTest {
 
 	@Test
 	public void rejectChildrenInEmergencyRowSeating() {
+
+		// Test with children in emergency row seating
+		// contains correct ratio of adults to children
+
 		adultPassengerCount = 2;
 		childPassengerCount = 1;
 		infantPassengerCount = 0;
 		emergencyRowSeating = true;
 		assertFalse(searchPassengers());
+		assertEquals(UNINITIALISED_INT, fs.getAdultPassengerCount());
+		assertEquals(UNINITIALISED_INT, fs.getChildPassengerCount());
+		assertEquals(UNINITIALISED_INT, fs.getInfantPassengerCount());
+		
+
 	}
 
-	@Test
+	@Test	
 	public void acceptChildrenInNonEmergencyRowSeating() {
 		adultPassengerCount = 2;
 		childPassengerCount = 1;
 		infantPassengerCount = 0;
 		emergencyRowSeating = false;
 		assertTrue(searchPassengers());
+		assertEquals(adultPassengerCount, fs.getAdultPassengerCount());
+		assertEquals(childPassengerCount, fs.getChildPassengerCount());
+		assertEquals(infantPassengerCount, fs.getInfantPassengerCount());
+
 	}
 	
 	@Test
@@ -83,6 +105,9 @@ class ChildrenPassengerTest {
 		emergencyRowSeating = false;
 		seatingClass = "first";
 		assertFalse(searchPassengers());
+		assertEquals(UNINITIALISED_INT, fs.getAdultPassengerCount());
+		assertEquals(UNINITIALISED_INT, fs.getChildPassengerCount());
+		assertEquals(UNINITIALISED_INT, fs.getInfantPassengerCount());
 	}
 
 	@Test
@@ -93,6 +118,10 @@ class ChildrenPassengerTest {
 		emergencyRowSeating = false;
 		seatingClass = "economy";
 		assertTrue(searchPassengers());	
+		assertEquals(adultPassengerCount, fs.getAdultPassengerCount());
+		assertEquals(childPassengerCount, fs.getChildPassengerCount());
+		assertEquals(infantPassengerCount, fs.getInfantPassengerCount());
+		
 	}
 
 
@@ -105,6 +134,9 @@ class ChildrenPassengerTest {
 		infantPassengerCount = 1;
 		emergencyRowSeating = true;
 		assertFalse(searchPassengers());
+		assertEquals(UNINITIALISED_INT, fs.getAdultPassengerCount());
+		assertEquals(UNINITIALISED_INT, fs.getChildPassengerCount());
+		assertEquals(UNINITIALISED_INT, fs.getInfantPassengerCount());
 	}
 
 	@Test
@@ -114,6 +146,9 @@ class ChildrenPassengerTest {
 		infantPassengerCount = 1;
 		emergencyRowSeating = false;
 		assertTrue(searchPassengers());
+		assertEquals(adultPassengerCount, fs.getAdultPassengerCount());
+		assertEquals(childPassengerCount, fs.getChildPassengerCount());
+		assertEquals(infantPassengerCount, fs.getInfantPassengerCount());
 	}
 
 	@Test
@@ -124,6 +159,9 @@ class ChildrenPassengerTest {
 		emergencyRowSeating = false;
 		seatingClass = "business";
 		assertFalse(searchPassengers());
+		assertEquals(UNINITIALISED_INT, fs.getAdultPassengerCount());
+		assertEquals(UNINITIALISED_INT, fs.getChildPassengerCount());
+		assertEquals(UNINITIALISED_INT, fs.getInfantPassengerCount());
 	}
 
 	@Test
@@ -134,6 +172,9 @@ class ChildrenPassengerTest {
 		emergencyRowSeating = false;
 		seatingClass = "economy";
 		assertTrue(searchPassengers());
+		assertEquals(adultPassengerCount, fs.getAdultPassengerCount());
+		assertEquals(childPassengerCount, fs.getChildPassengerCount());
+		assertEquals(infantPassengerCount, fs.getInfantPassengerCount());
 	}
 
 	// --- condition 4 - test all children must be seated next to an adult ---
@@ -144,6 +185,9 @@ class ChildrenPassengerTest {
 		childPassengerCount = 5;
 		infantPassengerCount = 0;
 		assertFalse(searchPassengers());
+		assertEquals(UNINITIALISED_INT, fs.getAdultPassengerCount());
+		assertEquals(UNINITIALISED_INT, fs.getChildPassengerCount());
+		assertEquals(UNINITIALISED_INT, fs.getInfantPassengerCount());
 	}
 	
 	@Test
@@ -152,6 +196,9 @@ class ChildrenPassengerTest {
 		childPassengerCount = 4;
 		infantPassengerCount = 0;
 		assertTrue(searchPassengers());
+		assertEquals(adultPassengerCount, fs.getAdultPassengerCount());
+		assertEquals(childPassengerCount, fs.getChildPassengerCount());
+		assertEquals(infantPassengerCount, fs.getInfantPassengerCount());
 	}
 
 	// --- condition 5 - test each infant must be seated on an accompanying adult's lap ---
@@ -162,6 +209,9 @@ class ChildrenPassengerTest {
 		childPassengerCount = 0;
 		infantPassengerCount = 3;
 		assertFalse(searchPassengers());
+		assertEquals(UNINITIALISED_INT, fs.getAdultPassengerCount());
+		assertEquals(UNINITIALISED_INT, fs.getChildPassengerCount());
+		assertEquals(UNINITIALISED_INT, fs.getInfantPassengerCount());
 	}
 
 	@Test
@@ -170,6 +220,9 @@ class ChildrenPassengerTest {
 		childPassengerCount = 0;
 		infantPassengerCount = 2;
 		assertTrue(searchPassengers());
+		assertEquals(adultPassengerCount, fs.getAdultPassengerCount());
+		assertEquals(childPassengerCount, fs.getChildPassengerCount());
+		assertEquals(infantPassengerCount, fs.getInfantPassengerCount());
 	}
 	
 

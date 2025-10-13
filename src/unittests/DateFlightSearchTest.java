@@ -4,8 +4,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.time.LocalDate;
 
-import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import flight.FlightSearch;
 
@@ -45,69 +45,118 @@ public class DateFlightSearchTest {
     }
 
     @Test
-    public void testRejectPastDepartureDate() {
-    	// Test with a past departure date
-        String testDepDate = LocalDate.now().minusDays(1).format(DateTimeFormatter.ofPattern("dd/MM/yyyy")); // Set a past date
+    public void rejectPastDepartureDate() {
+    	// check that the departure date is not in the past
+        String testDepDate = LocalDate.now().minusDays(1).format
+                (DateTimeFormatter.ofPattern("dd/MM/yyyy")); // Set a 
+                                                                // past date
         String testRetDate = LocalDate.now().plusDays(7).format(DateTimeFormatter.ofPattern("dd/MM/yyyy")); // Set a future 
 
-        // throw an exception for invalid date
-        assertThrows(IllegalArgumentException.class, () -> searchDates(testDepDate, testRetDate));
+        assertFalse(searchDates(testDepDate, testRetDate));
+        assertNull(fs.getDepartureDate());
+        assertNull(fs.getReturnDate());
     }
 
-    // test invalid dates - YYYY/MM/DD, MM/DD/YYYY, YYYYMMDD, YYYYDDMM, etc
-    // ensure strict date validation is applied
+
     @Test
-    public void testRejectInvalidDateFormat() {
-        LocalDate baseDepDate = LocalDate.now().plusDays(1);
-        LocalDate baseRetDate = LocalDate.now().plusDays(7);
-        // test various invalid date formats
-        String testDepDate1 = baseDepDate.format(DateTimeFormatter.ofPattern("yyyy/MM/dd")); 
-        String testDepDate2 = baseDepDate.format(DateTimeFormatter.ofPattern("MM/dd/yyyy"));
-        String testDepDate3 = baseDepDate.format(DateTimeFormatter.ofPattern("yyyyMMdd")); 
-        String testDepDate4 = baseDepDate.format(DateTimeFormatter.ofPattern("yyyyddMM")); 
+    public void acceptValidDepartureDate() {
+    	// valid departure date is at least today
+        String testDepDate = LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")); // Set to today's date
+        String testRetDate = LocalDate.now().plusDays(7).format(DateTimeFormatter.ofPattern("dd/MM/yyyy")); // Set to a week from today
+        assertTrue(searchDates(testDepDate, testRetDate));
+        assertEquals(testDepDate, fs.getDepartureDate());
+        assertEquals(testRetDate, fs.getReturnDate());
+    }
 
+
+    @Test
+    public void rejectLeapYearDate() {
+        // test of strict date validation for leap year dates
         int year = Integer.valueOf(LocalDate.now().getYear());
-        // if current year is a leap year, test with 2023 (not a leap year)
-        String testDepDate5 = isLeapYear(year) ? "29/02/" + year : "29/02/" + year + 1;
-        String testRetDate5 = isLeapYear(year) ? "06/03/" + year : "05/03/" + year;
-        
-        String testRetDate1 = baseRetDate.format(DateTimeFormatter.ofPattern("yyyy/MM/dd"));
-        String testRetDate2 = baseRetDate.format(DateTimeFormatter.ofPattern("MM/dd/yyyy")); 
-        String testRetDate3 = baseRetDate.format(DateTimeFormatter.ofPattern("yyyyMMdd")); 
-        String testRetDate4 = baseRetDate.format(DateTimeFormatter.ofPattern("yyyyddMM")); 
-
-        // throw an exception for invalid date
-        assertThrows(IllegalArgumentException.class, () -> searchDates(testDepDate1, testRetDate1));
-        assertThrows(IllegalArgumentException.class, () -> searchDates(testDepDate2, testRetDate2));
-        assertThrows(IllegalArgumentException.class, () -> searchDates(testDepDate3, testRetDate3));
-        assertThrows(IllegalArgumentException.class, () -> searchDates(testDepDate4, testRetDate4));
-        assertThrows(IllegalArgumentException.class, () -> searchDates(testDepDate5, testRetDate5));
-        // assertThrows(IllegalArgumentException.class, () -> searchDates(testDepDate5, testRetDate5));
-    
-
-        searchDates(testDepDate1, testRetDate1);
+        // if current year is a leap year, test with next year
+        String testDepDate = "29/02/" + year;
+        String testRetDate = "06/03/" + year;
+        assertFalse(searchDates(testDepDate, testRetDate));
         assertNull(fs.getDepartureDate());
         assertNull(fs.getReturnDate());
+    }
 
-        searchDates(testDepDate2, testRetDate2);
-        assertNull(fs.getDepartureDate());
-        assertNull(fs.getReturnDate());
+    @Test
+    public void acceptValidLeapYearDate() {
+        // test of strict date validation for leap year dates
+        // valid 29/02 must be within the next leap year
+        int year = Integer.valueOf(LocalDate.now().getYear());
+        year = getNextLeapYear(year);
 
-        searchDates(testDepDate3, testRetDate3);
-        assertNull(fs.getDepartureDate());
-        assertNull(fs.getReturnDate());
+        String testDepDate = "29/02/" + year;
+        String testRetDate = "06/03/" + year;
+        assertTrue(searchDates(testDepDate, testRetDate));
+        assertEquals(testDepDate, fs.getDepartureDate());
+        assertEquals(testRetDate, fs.getReturnDate());
+    }
 
-        searchDates(testDepDate4, testRetDate4);
-        assertNull(fs.getDepartureDate());
-        assertNull(fs.getReturnDate());
-
-        searchDates(testDepDate5, testRetDate5);
+    @Test
+    public void rejectInvalidDayMonthDate() {
+        // test of strict date validation for invalid day/month combinations
+        String testDepDate = "31/04/" + LocalDate.now().getYear();
+        String testRetDate = "06/05/" + LocalDate.now().getYear();
+        assertFalse(searchDates(testDepDate, testRetDate));
         assertNull(fs.getDepartureDate());
         assertNull(fs.getReturnDate());
     }
 
 
-    Boolean isLeapYear(int year) {
+    // ------ invalid date formats ------ //
+
+    @Test
+    public void rejectDateFormatYYYYMMDD() {
+        LocalDate baseDepDate = LocalDate.now();
+        LocalDate baseRetDate = baseDepDate.plusDays(7);
+        // test YYYYMMDD format
+        String testDepDate = baseDepDate.format(DateTimeFormatter.ofPattern("yyyyMMdd")); 
+        String testRetDate = baseRetDate.format(DateTimeFormatter.ofPattern("yyyyMMdd")); 
+        searchDates(testDepDate, testRetDate);
+        assertNull(fs.getDepartureDate());
+        assertNull(fs.getReturnDate());
+    }
+
+    @Test
+    public void rejectDateFormatMMDDYYYY() {
+        LocalDate baseDepDate = LocalDate.now();
+        LocalDate baseRetDate = baseDepDate.plusDays(7);
+        // test MMDDYYYY format
+        String testDepDate = baseDepDate.format(DateTimeFormatter.ofPattern("MMddyyyy")); 
+        String testRetDate = baseRetDate.format(DateTimeFormatter.ofPattern("MMddyyyy")); 
+        searchDates(testDepDate, testRetDate);
+        assertNull(fs.getDepartureDate());
+        assertNull(fs.getReturnDate());
+    }
+
+    @Test
+    public void acceptValidDateFormatDDMMYYYY() {
+        LocalDate baseDepDate = LocalDate.now().plusDays(1);
+        LocalDate baseRetDate = baseDepDate.plusDays(7);
+        // test valid DD/MM/YYYY format
+        String testDepDate = baseDepDate.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")); 
+        String testRetDate = baseRetDate.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")); 
+        searchDates(testDepDate, testRetDate);
+        assertEquals(testDepDate, fs.getDepartureDate());
+        assertEquals(testRetDate, fs.getReturnDate());
+    }
+
+
+
+
+    private int getNextLeapYear(int year) {
+        int nextYear = year + 1;
+        while (!isLeapYear(nextYear)) {
+            nextYear++;
+        }
+        return nextYear;
+    }
+
+
+    private Boolean isLeapYear(int year) {
         // A year is a leap year if it is divisible by 4
         // but not divisible by 100, unless it is also divisible by 400
         if (year % 4 == 0) {

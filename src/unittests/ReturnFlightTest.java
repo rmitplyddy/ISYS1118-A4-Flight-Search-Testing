@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestFactory;
 
 import flight.FlightSearch;
 
@@ -23,6 +22,7 @@ class ReturnFlightTest {
    	private int adultPassengerCount;
 	private int childPassengerCount;
 	private int infantPassengerCount;
+	private static final int UNINITIALISED_INT = -99; // sentinel value for uninitialised int attributes
 
 	@BeforeEach
 	void setUp() throws Exception {
@@ -36,20 +36,39 @@ class ReturnFlightTest {
 		emergencyRowSeating, returnDate, destinationAirportCode, seatingClass, 
 		adultPassengerCount, childPassengerCount, infantPassengerCount);
 	}
+
+	@Test
+	public void rejectReturnBeforeDeparture() {
+		// Test with return date before departure date
+		// Ensure that the return date is after the departure date
+		departureDate = "25/12/2025";
+		returnDate = "24/12/2025";
+		assertFalse(searchAirports());
+		assertNull(fs.getReturnDate());
+		assertNull(fs.getDepartureDate());
+		assertNull(fs.getDestinationAirportCode());
+		assertNull(fs.getDepartureAirportCode());
+		assertEquals(UNINITIALISED_INT, fs.getAdultPassengerCount());
+		assertEquals(UNINITIALISED_INT, fs.getChildPassengerCount());
+		assertEquals(UNINITIALISED_INT, fs.getInfantPassengerCount());
+	}
 	
 	@Test
 	public void rejectNullReturnFlights() {
-
+		// Test with null return date
 		// Ensure that a valid return date is also set
 		departureAirportCode = "syd"; 
 		destinationAirportCode = "";
-		assertNotNull(fs.getDestinationAirportCode()); // maybe an exception should be called instead?? this doesn't seem to be a viable test
+		assertFalse(searchAirports());
+		assertNull(fs.getDestinationAirportCode());
+		assertNull(fs.getDepartureAirportCode());
+		assertNull(fs.getReturnDate());
+		assertNull(fs.getDepartureDate());
+		assertEquals(UNINITIALISED_INT, fs.getAdultPassengerCount());
+		assertEquals(UNINITIALISED_INT, fs.getChildPassengerCount());
+		assertEquals(UNINITIALISED_INT, fs.getInfantPassengerCount());
 
 	}
-
-	@Test
-	public void rejectReturnDateBeforeDepartureDate() {
-		// Test with return date before departure date
 
 
 }
