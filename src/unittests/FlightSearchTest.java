@@ -56,9 +56,23 @@ class FlightSearchTest {
 		adultPassengerCount = 0; 
 		childPassengerCount = 0;
 		infantPassengerCount = 0;
+		// check that the return value is false
 		assertFalse(fs.runFlightSearch(departureDate, departureAirportCode, 
 			emergencyRowSeating, returnDate, destinationAirportCode, seatingClass, 
 			adultPassengerCount, childPassengerCount, infantPassengerCount));
+		// check that all values remain unchanged
+		assertNotEquals(adultPassengerCount, 
+									fs.getAdultPassengerCount());
+		assertNotEquals(childPassengerCount, 
+									fs.getChildPassengerCount());
+		assertNotEquals(infantPassengerCount, 
+									fs.getInfantPassengerCount());
+		assertNull(fs.getDepartureAirportCode());
+		assertNull(fs.getDestinationAirportCode());
+		assertNull(fs.getSeatingClass());
+		assertNull(fs.getDepartureDate());
+		assertNull(fs.getReturnDate());
+		assertFalse(fs.isEmergencyRowSeating()); // should be false as set
 
 		// Total 10 passengers
 		// replace passenger counts only to make total 10
@@ -67,9 +81,24 @@ class FlightSearchTest {
 		adultPassengerCount = 5;
 		childPassengerCount = 4;
 		infantPassengerCount = 1; 
+		// check that the return value is false
 		assertFalse(fs.runFlightSearch(departureDate, departureAirportCode, 
 			emergencyRowSeating, returnDate, destinationAirportCode, seatingClass, 
 			adultPassengerCount, childPassengerCount, infantPassengerCount));
+		
+		// check that all values remain unchanged
+		assertNotEquals(adultPassengerCount, 
+									fs.getAdultPassengerCount());
+		assertNotEquals(childPassengerCount, 
+									fs.getChildPassengerCount());
+		assertNotEquals(infantPassengerCount, 
+									fs.getInfantPassengerCount());
+		assertNull(fs.getDepartureAirportCode());
+		assertNull(fs.getDestinationAirportCode());
+		assertNull(fs.getSeatingClass());
+		assertNull(fs.getDepartureDate());
+		assertNull(fs.getReturnDate());
+		assertFalse(fs.isEmergencyRowSeating()); // should be false as set
 	}
 
 	// Test case 2 - Verify REJECTION of children seated in emergency row 
@@ -84,9 +113,25 @@ class FlightSearchTest {
 
 		emergencyRowSeating = true;
 
+		// check that the return value is false
 		assertFalse(fs.runFlightSearch(departureDate, departureAirportCode, 
 			emergencyRowSeating, returnDate, destinationAirportCode, 
-			seatingClass, adultPassengerCount, childPassengerCount, infantPassengerCount));
+			seatingClass, adultPassengerCount, childPassengerCount, 
+			infantPassengerCount));
+		
+		// check all values remain unchanged
+		assertNotEquals(adultPassengerCount, 
+									fs.getAdultPassengerCount());
+		assertNotEquals(childPassengerCount, 
+									fs.getChildPassengerCount());
+		assertNotEquals(infantPassengerCount, 
+									fs.getInfantPassengerCount());
+		assertNull(fs.getDepartureAirportCode());
+		assertNull(fs.getDestinationAirportCode());
+		assertNull(fs.getSeatingClass());
+		assertNull(fs.getDepartureDate());
+		assertNull(fs.getReturnDate());
+		assertFalse(fs.isEmergencyRowSeating()); // should be false as set
 
 		
 		// change to first class seating
@@ -95,9 +140,25 @@ class FlightSearchTest {
 		emergencyRowSeating = false; // reset to default
 		seatingClass = "first"; // change to first class
 
+		// check that the return value is false
 		assertFalse(fs.runFlightSearch(departureDate, departureAirportCode, 
 			emergencyRowSeating, returnDate, destinationAirportCode, 
-			seatingClass, adultPassengerCount, childPassengerCount, infantPassengerCount));
+			seatingClass, adultPassengerCount, childPassengerCount, 
+			infantPassengerCount));
+
+		// check that all values remain unchanged
+		assertNotEquals(adultPassengerCount, 
+									fs.getAdultPassengerCount());
+		assertNotEquals(childPassengerCount, 
+									fs.getChildPassengerCount());
+		assertNotEquals(infantPassengerCount, 
+									fs.getInfantPassengerCount());
+		assertNull(fs.getDepartureAirportCode());
+		assertNull(fs.getDestinationAirportCode());
+		assertNull(fs.getSeatingClass());
+		assertNull(fs.getDepartureDate());
+		assertNull(fs.getReturnDate());
+		assertFalse(fs.isEmergencyRowSeating()); // should be false as set
 	}
 
 	// Test case 3 - Verify REJECTION of infants in emergency row seating
@@ -110,11 +171,27 @@ class FlightSearchTest {
 		// initialised.
 
 		emergencyRowSeating = true;
-		infantPassengerCount = 1; // set to one infant
+		infantPassengerCount = 1;
 
+		// check that the return value is false
 		assertFalse(fs.runFlightSearch(departureDate, departureAirportCode, 
 			emergencyRowSeating, returnDate, destinationAirportCode, 
-			seatingClass, adultPassengerCount, childPassengerCount, infantPassengerCount));
+			seatingClass, adultPassengerCount, childPassengerCount, 
+			infantPassengerCount));
+		
+		// check all values remain unchanged
+		assertNotEquals(adultPassengerCount,
+									fs.getAdultPassengerCount());
+		assertNotEquals(childPassengerCount,
+									fs.getChildPassengerCount());
+		assertNotEquals(infantPassengerCount,
+									fs.getInfantPassengerCount());
+		assertNull(fs.getDepartureAirportCode());
+		assertNull(fs.getDestinationAirportCode());
+		assertNull(fs.getSeatingClass());
+		assertNull(fs.getDepartureDate());
+		assertNull(fs.getReturnDate());
+		assertFalse(fs.isEmergencyRowSeating()); // should be false as set
 
 		// change to business class seating
 		// emergency row seating must be false for business class
@@ -122,9 +199,25 @@ class FlightSearchTest {
 		emergencyRowSeating = false; // reset to default
 		seatingClass = "business"; // change to business class
 
+		// check that the return value is false
 		assertFalse(fs.runFlightSearch(departureDate, departureAirportCode, 
 			emergencyRowSeating, returnDate, destinationAirportCode, 
-			seatingClass, adultPassengerCount, childPassengerCount, infantPassengerCount));
+			seatingClass, adultPassengerCount, childPassengerCount, 
+			infantPassengerCount));
+		
+		// check that all values remain unchanged
+		assertNotEquals(adultPassengerCount, 
+									fs.getAdultPassengerCount());
+		assertNotEquals(childPassengerCount, 
+									fs.getChildPassengerCount());
+		assertNotEquals(infantPassengerCount, 
+									fs.getInfantPassengerCount());
+		assertNull(fs.getDepartureAirportCode());
+		assertNull(fs.getDestinationAirportCode());
+		assertNull(fs.getSeatingClass());
+		assertNull(fs.getDepartureDate());
+		assertNull(fs.getReturnDate());
+		assertFalse(fs.isEmergencyRowSeating()); // should be false as set
 	}
 
 	// Test Case 4 - Check number of children with an accompanying adult (do not exceed 2 children per adult) 
@@ -137,17 +230,48 @@ class FlightSearchTest {
 
 		adultPassengerCount = 1;
 		childPassengerCount = 3;
-		
+
+		// check that the return value is false
 		assertFalse(fs.runFlightSearch(departureDate, departureAirportCode,
 			emergencyRowSeating, returnDate, destinationAirportCode,
-			seatingClass, adultPassengerCount, childPassengerCount, infantPassengerCount));
+			seatingClass, adultPassengerCount, childPassengerCount, 
+			infantPassengerCount));
+		
+		// check that all values remain unchanged
+		assertNotEquals(adultPassengerCount, 
+									fs.getAdultPassengerCount());
+		assertNotEquals(childPassengerCount, 
+									fs.getChildPassengerCount());
+		assertNotEquals(infantPassengerCount, 
+									fs.getInfantPassengerCount());
+		assertNull(fs.getDepartureAirportCode());
+		assertNull(fs.getDestinationAirportCode());
+		assertNull(fs.getSeatingClass());
+		assertNull(fs.getDepartureDate());
+		assertNull(fs.getReturnDate());
+		assertFalse(fs.isEmergencyRowSeating()); // should be false as set
 
 		adultPassengerCount = 0;
 		childPassengerCount = 1;
-
+		// check that the return value is false
 		assertFalse(fs.runFlightSearch(departureDate, departureAirportCode,
 			emergencyRowSeating, returnDate, destinationAirportCode,
-			seatingClass, adultPassengerCount, childPassengerCount, infantPassengerCount));
+			seatingClass, adultPassengerCount, childPassengerCount, 
+			infantPassengerCount));
+		
+		// check that all values remain unchanged
+		assertNotEquals(adultPassengerCount, 
+									fs.getAdultPassengerCount());
+		assertNotEquals(childPassengerCount, 
+									fs.getChildPassengerCount());
+		assertNotEquals(infantPassengerCount, 
+									fs.getInfantPassengerCount());
+		assertNull(fs.getDepartureAirportCode());
+		assertNull(fs.getDestinationAirportCode());
+		assertNull(fs.getSeatingClass());
+		assertNull(fs.getDepartureDate());
+		assertNull(fs.getReturnDate());
+		assertFalse(fs.isEmergencyRowSeating()); // should be false as set
 	}
 
 	// 	Test Case 5 - Check number of infant passengers DO NOT exceed the
@@ -167,14 +291,44 @@ class FlightSearchTest {
 
 		assertFalse(fs.runFlightSearch(departureDate, departureAirportCode, 
 			emergencyRowSeating, returnDate, destinationAirportCode, 
-			seatingClass, adultPassengerCount, childPassengerCount, infantPassengerCount));
+			seatingClass, adultPassengerCount, childPassengerCount, 
+			infantPassengerCount));
+		
+		// check that all values remain unchanged
+		assertNotEquals(adultPassengerCount, 
+									fs.getAdultPassengerCount());
+		assertNotEquals(childPassengerCount, 
+									fs.getChildPassengerCount());
+		assertNotEquals(infantPassengerCount, 
+									fs.getInfantPassengerCount());
+		assertNull(fs.getDepartureAirportCode());
+		assertNull(fs.getDestinationAirportCode());
+		assertNull(fs.getSeatingClass());
+		assertNull(fs.getDepartureDate());
+		assertNull(fs.getReturnDate());
+		assertFalse(fs.isEmergencyRowSeating()); // should be false as set
 
 		adultPassengerCount = 0; // set to zero
 		infantPassengerCount = 1; // set to one infant
 
 		assertFalse(fs.runFlightSearch(departureDate, departureAirportCode, 
 			emergencyRowSeating, returnDate, destinationAirportCode, 
-			seatingClass, adultPassengerCount, childPassengerCount, infantPassengerCount));
+			seatingClass, adultPassengerCount, childPassengerCount, 
+			infantPassengerCount));
+		
+		// check that all values remain unchanged
+		assertNotEquals(adultPassengerCount, 
+									fs.getAdultPassengerCount());
+		assertNotEquals(childPassengerCount, 
+									fs.getChildPassengerCount());
+		assertNotEquals(infantPassengerCount, 
+									fs.getInfantPassengerCount());
+		assertNull(fs.getDepartureAirportCode());
+		assertNull(fs.getDestinationAirportCode());
+		assertNull(fs.getSeatingClass());
+		assertNull(fs.getDepartureDate());
+		assertNull(fs.getReturnDate());
+		assertFalse(fs.isEmergencyRowSeating()); // should be false as set
 
 	}
 
@@ -191,7 +345,22 @@ class FlightSearchTest {
 
 		assertFalse(fs.runFlightSearch(departureDate, departureAirportCode, 
 			emergencyRowSeating, returnDate, destinationAirportCode, 
-			seatingClass, adultPassengerCount, childPassengerCount, infantPassengerCount));
+			seatingClass, adultPassengerCount, childPassengerCount, 
+			infantPassengerCount));
+		
+		// check that all values remain unchanged
+		assertNotEquals(adultPassengerCount, 
+									fs.getAdultPassengerCount());
+		assertNotEquals(childPassengerCount, 
+									fs.getChildPassengerCount());
+		assertNotEquals(infantPassengerCount, 
+									fs.getInfantPassengerCount());
+		assertNull(fs.getDepartureAirportCode());
+		assertNull(fs.getDestinationAirportCode());
+		assertNull(fs.getSeatingClass());
+		assertNull(fs.getDepartureDate());
+		assertNull(fs.getReturnDate());
+		assertFalse(fs.isEmergencyRowSeating()); // should be false as set
 	}
 
 	// Test Case 7 - Check function for INVALID date entries
@@ -209,7 +378,22 @@ class FlightSearchTest {
 
 		assertFalse(fs.runFlightSearch(departureDate, departureAirportCode, 
 			emergencyRowSeating, returnDate, destinationAirportCode, 
-			seatingClass, adultPassengerCount, childPassengerCount, infantPassengerCount));
+			seatingClass, adultPassengerCount, childPassengerCount, 
+			infantPassengerCount));
+		
+		// check that all values remain unchanged
+		assertNotEquals(adultPassengerCount, 
+									fs.getAdultPassengerCount());
+		assertNotEquals(childPassengerCount, 
+									fs.getChildPassengerCount());
+		assertNotEquals(infantPassengerCount, 
+									fs.getInfantPassengerCount());
+		assertNull(fs.getDepartureAirportCode());
+		assertNull(fs.getDestinationAirportCode());
+		assertNull(fs.getSeatingClass());
+		assertNull(fs.getDepartureDate());
+		assertNull(fs.getReturnDate());
+		assertFalse(fs.isEmergencyRowSeating()); // should be false as set
 
 		// set return date to invalid date format
 
@@ -219,7 +403,22 @@ class FlightSearchTest {
 
 		assertFalse(fs.runFlightSearch(departureDate, departureAirportCode, 
 			emergencyRowSeating, returnDate, destinationAirportCode, 
-			seatingClass, adultPassengerCount, childPassengerCount, infantPassengerCount));
+			seatingClass, adultPassengerCount, childPassengerCount, 
+			infantPassengerCount));
+		
+		// check that all values remain unchanged
+		assertNotEquals(adultPassengerCount, 
+									fs.getAdultPassengerCount());
+		assertNotEquals(childPassengerCount, 
+									fs.getChildPassengerCount());
+		assertNotEquals(infantPassengerCount, 
+									fs.getInfantPassengerCount());
+		assertNull(fs.getDepartureAirportCode());
+		assertNull(fs.getDestinationAirportCode());
+		assertNull(fs.getSeatingClass());
+		assertNull(fs.getDepartureDate());
+		assertNull(fs.getReturnDate());
+		assertFalse(fs.isEmergencyRowSeating()); // should be false as set
 	}
 
 	// Test Case 8 - Check INVALID return flight entries
@@ -233,9 +432,23 @@ class FlightSearchTest {
 		departureAirportCode = "mel";
 		destinationAirportCode = "";
 
+		// should return false
 		assertFalse(fs.runFlightSearch(departureDate, departureAirportCode, 
 			emergencyRowSeating, returnDate, destinationAirportCode, 
 			seatingClass, adultPassengerCount, childPassengerCount, infantPassengerCount));
+		// check that all values remain unchanged
+		assertNotEquals(adultPassengerCount, 
+									fs.getAdultPassengerCount());
+		assertNotEquals(childPassengerCount, 
+									fs.getChildPassengerCount());
+		assertNotEquals(infantPassengerCount, 
+									fs.getInfantPassengerCount());
+		assertNull(fs.getDepartureAirportCode());
+		assertNull(fs.getDestinationAirportCode());
+		assertNull(fs.getSeatingClass());
+		assertNull(fs.getDepartureDate());
+		assertNull(fs.getReturnDate());
+		assertFalse(fs.isEmergencyRowSeating()); // should be false as set
 
 		// set return date to before departure date
 		// return date - today, departure date - 7 days from today
@@ -244,10 +457,25 @@ class FlightSearchTest {
 				.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")); 
 		returnDate = LocalDate.now()
 				.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-
+		// should return false
 		assertFalse(fs.runFlightSearch(departureDate, departureAirportCode, 
 			emergencyRowSeating, returnDate, destinationAirportCode, 
-			seatingClass, adultPassengerCount, childPassengerCount, infantPassengerCount));
+			seatingClass, adultPassengerCount, childPassengerCount, 
+			infantPassengerCount));
+		
+		// check that all values remain unchanged
+		assertNotEquals(adultPassengerCount, 
+									fs.getAdultPassengerCount());
+		assertNotEquals(childPassengerCount, 
+									fs.getChildPassengerCount());
+		assertNotEquals(infantPassengerCount, 
+									fs.getInfantPassengerCount());
+		assertNull(fs.getDepartureAirportCode());
+		assertNull(fs.getDestinationAirportCode());
+		assertNull(fs.getSeatingClass());
+		assertNull(fs.getDepartureDate());
+		assertNull(fs.getReturnDate());
+		assertFalse(fs.isEmergencyRowSeating()); // should be false as set
 	}
 
 	// Test Case 9 - Check seating class is INVALID
@@ -258,15 +486,46 @@ class FlightSearchTest {
 		// set seating class to invalid value
 
 		seatingClass = ""; // blank seating class
+		// check that the return value is false
 		assertFalse(fs.runFlightSearch(departureDate, departureAirportCode, 
 			emergencyRowSeating, returnDate, destinationAirportCode, 
-			seatingClass, adultPassengerCount, childPassengerCount, infantPassengerCount));
+			seatingClass, adultPassengerCount, childPassengerCount, 
+			infantPassengerCount));
+		
+		// check that all values remain unchanged
+		assertNotEquals(adultPassengerCount, 
+									fs.getAdultPassengerCount());
+		assertNotEquals(childPassengerCount, 
+									fs.getChildPassengerCount());
+		assertNotEquals(infantPassengerCount, 
+									fs.getInfantPassengerCount());
+		assertNull(fs.getDepartureAirportCode());
+		assertNull(fs.getDestinationAirportCode());
+		assertNull(fs.getSeatingClass());
+		assertNull(fs.getDepartureDate());
+		assertNull(fs.getReturnDate());
+		assertFalse(fs.isEmergencyRowSeating()); // should be false as set
 
 		seatingClass = "second class"; // invalid seating class
 
 		assertFalse(fs.runFlightSearch(departureDate, departureAirportCode, 
 			emergencyRowSeating, returnDate, destinationAirportCode, 
-			seatingClass, adultPassengerCount, childPassengerCount, infantPassengerCount));
+			seatingClass, adultPassengerCount, childPassengerCount, 
+			infantPassengerCount));
+		
+		// check that all values remain unchanged
+		assertNotEquals(adultPassengerCount, 
+									fs.getAdultPassengerCount());
+		assertNotEquals(childPassengerCount, 
+									fs.getChildPassengerCount());
+		assertNotEquals(infantPassengerCount, 
+									fs.getInfantPassengerCount());
+		assertNull(fs.getDepartureAirportCode());
+		assertNull(fs.getDestinationAirportCode());
+		assertNull(fs.getSeatingClass());
+		assertNull(fs.getDepartureDate());
+		assertNull(fs.getReturnDate());
+		assertFalse(fs.isEmergencyRowSeating()); // should be false as set
 	}
 
 	// Test Case 10 - Check emergency row seating INVALID for NON-ECONOMY classes
@@ -283,11 +542,26 @@ class FlightSearchTest {
 
 		childPassengerCount = 0;
 		emergencyRowSeating = true;
-		seatingClass = "business"; // non-economy class
+		seatingClass = "premium economy";
 
 		assertFalse(fs.runFlightSearch(departureDate, departureAirportCode,
 			emergencyRowSeating, returnDate, destinationAirportCode,
-			seatingClass, adultPassengerCount, childPassengerCount, infantPassengerCount));
+			seatingClass, adultPassengerCount, childPassengerCount, 
+			infantPassengerCount));
+		
+		// check that all values remain unchanged
+		assertNotEquals(adultPassengerCount, 
+									fs.getAdultPassengerCount());
+		assertNotEquals(childPassengerCount, 
+									fs.getChildPassengerCount());
+		assertNotEquals(infantPassengerCount, 
+									fs.getInfantPassengerCount());
+		assertNull(fs.getDepartureAirportCode());
+		assertNull(fs.getDestinationAirportCode());
+		assertNull(fs.getSeatingClass());
+		assertNull(fs.getDepartureDate());
+		assertNull(fs.getReturnDate());
+		assertFalse(fs.isEmergencyRowSeating()); // should be false as set
 
 		// check emergency row seating with first class
 
@@ -295,8 +569,23 @@ class FlightSearchTest {
 
 		assertFalse(fs.runFlightSearch(departureDate, departureAirportCode,
 			emergencyRowSeating, returnDate, destinationAirportCode,
-			seatingClass, adultPassengerCount, childPassengerCount, infantPassengerCount));
+			seatingClass, adultPassengerCount, childPassengerCount, 
+			infantPassengerCount));
 		
+		// check that all values remain unchanged
+		assertNotEquals(adultPassengerCount, 
+									fs.getAdultPassengerCount());
+		assertNotEquals(childPassengerCount, 
+									fs.getChildPassengerCount());
+		assertNotEquals(infantPassengerCount, 
+									fs.getInfantPassengerCount());
+		assertNull(fs.getDepartureAirportCode());
+		assertNull(fs.getDestinationAirportCode());
+		assertNull(fs.getSeatingClass());
+		assertNull(fs.getDepartureDate());
+		assertNull(fs.getReturnDate());
+		assertFalse(fs.isEmergencyRowSeating()); // should be false as set
+
 	}
 
 	// Test Case 11 - Check INVALID airport codes entered for departure and destination
@@ -309,9 +598,25 @@ class FlightSearchTest {
 		departureAirportCode = "abc";
 		destinationAirportCode = "xyz";
 
+		// check that the function returns false
 		assertFalse(fs.runFlightSearch(departureDate, departureAirportCode,
 			emergencyRowSeating, returnDate, destinationAirportCode,
-			seatingClass, adultPassengerCount, childPassengerCount, infantPassengerCount));
+			seatingClass, adultPassengerCount, childPassengerCount, 
+			infantPassengerCount));
+		
+		// check that all values remain unchanged
+		assertNotEquals(adultPassengerCount, 
+									fs.getAdultPassengerCount());
+		assertNotEquals(childPassengerCount, 
+									fs.getChildPassengerCount());
+		assertNotEquals(infantPassengerCount, 
+									fs.getInfantPassengerCount());
+		assertNull(fs.getDepartureAirportCode());
+		assertNull(fs.getDestinationAirportCode());
+		assertNull(fs.getSeatingClass());
+		assertNull(fs.getDepartureDate());
+		assertNull(fs.getReturnDate());
+		assertFalse(fs.isEmergencyRowSeating()); // should be false as set
 
 		// set both departure and destination airport codes to blank
 
@@ -320,14 +625,30 @@ class FlightSearchTest {
 
 		assertFalse(fs.runFlightSearch(departureDate, departureAirportCode,
 			emergencyRowSeating, returnDate, destinationAirportCode,
-			seatingClass, adultPassengerCount, childPassengerCount, infantPassengerCount));
+			seatingClass, adultPassengerCount, childPassengerCount, 
+			infantPassengerCount));
+		
+		// check that all values remain unchanged
+		assertNotEquals(adultPassengerCount, 
+									fs.getAdultPassengerCount());
+		assertNotEquals(childPassengerCount, 
+									fs.getChildPassengerCount());
+		assertNotEquals(infantPassengerCount, 
+									fs.getInfantPassengerCount());
+		assertNull(fs.getDepartureAirportCode());
+		assertNull(fs.getDestinationAirportCode());
+		assertNull(fs.getSeatingClass());
+		assertNull(fs.getDepartureDate());
+		assertNull(fs.getReturnDate());
+		assertFalse(fs.isEmergencyRowSeating()); // should be false as set
 	}
 
 	// Test Case 12 - Check the search flight function with VALID entries
 	@Test
 	void acceptValidFlightSearch() {
 		
-		// test to check validity of parameter values on the flightSearch function at the boundaries
+		// test to check validity of parameter values on the flightSearch 
+		// function at the boundaries
 
 		// use the beforeEach initialised values first
 		// and then change values to test valid combinations
@@ -342,10 +663,30 @@ class FlightSearchTest {
 		childPassengerCount = 0;
 		infantPassengerCount = 0;
 
+		// should return true
 		assertTrue(fs.runFlightSearch(departureDate, departureAirportCode, 
 			emergencyRowSeating, returnDate, destinationAirportCode, 
-			seatingClass, adultPassengerCount, childPassengerCount, infantPassengerCount));
+			seatingClass, adultPassengerCount, childPassengerCount, 
+			infantPassengerCount));
 
+		// check that all the values are set correctly
+		assertEquals(adultPassengerCount, 
+									fs.getAdultPassengerCount());
+		assertEquals(childPassengerCount, 
+									fs.getChildPassengerCount());
+		assertEquals(infantPassengerCount, 
+									fs.getInfantPassengerCount());
+		assertEquals(departureAirportCode,
+									fs.getDepartureAirportCode());
+		assertEquals(destinationAirportCode,
+									fs.getDestinationAirportCode());
+		assertEquals(seatingClass,
+									fs.getSeatingClass());
+		assertEquals(departureDate,
+									fs.getDepartureDate());
+		assertEquals(returnDate,
+									fs.getReturnDate());
+		assertFalse(fs.isEmergencyRowSeating()); // should be false as set	
 
 		// change to business class, 9 adults, no children or infants
 		// change departure and destination airport codes
@@ -358,9 +699,25 @@ class FlightSearchTest {
 		childPassengerCount = 0;
 		infantPassengerCount = 0;
 
+		// should return true
 		assertTrue(fs.runFlightSearch(departureDate, departureAirportCode, 
 			emergencyRowSeating, returnDate, destinationAirportCode, 
-			seatingClass, adultPassengerCount, childPassengerCount, infantPassengerCount));
+			seatingClass, adultPassengerCount, childPassengerCount, 
+			infantPassengerCount));
+
+		// check that all the values are set correctly
+		assertEquals(adultPassengerCount, 
+									fs.getAdultPassengerCount());
+		assertEquals(childPassengerCount, 
+									fs.getChildPassengerCount());
+		assertEquals(infantPassengerCount, 
+									fs.getInfantPassengerCount());
+		assertEquals(departureAirportCode,
+									fs.getDepartureAirportCode());
+		assertEquals(seatingClass, fs.getSeatingClass());
+		assertEquals(departureDate, fs.getDepartureDate());
+		assertEquals(returnDate, fs.getReturnDate());
+		assertFalse(fs.isEmergencyRowSeating()); // should be false as set	
 
 		// change to premium economy, 4 adults, 3 children, 2 infants
 		// change departure and destination airport codes
@@ -373,9 +730,27 @@ class FlightSearchTest {
 		childPassengerCount = 3;
 		infantPassengerCount = 2;
 		
+		// check that the return value is true
 		assertTrue(fs.runFlightSearch(departureDate, departureAirportCode, 
 			emergencyRowSeating, returnDate, destinationAirportCode, 
-			seatingClass, adultPassengerCount, childPassengerCount, infantPassengerCount));
+			seatingClass, adultPassengerCount, childPassengerCount, 
+			infantPassengerCount));
+		
+		// check that all the values are set correctly
+		assertEquals(adultPassengerCount, 
+									fs.getAdultPassengerCount());
+		assertEquals(childPassengerCount, 
+									fs.getChildPassengerCount());
+		assertEquals(infantPassengerCount, 
+									fs.getInfantPassengerCount());
+		assertEquals(departureAirportCode,
+									fs.getDepartureAirportCode());
+		assertEquals(destinationAirportCode,
+									fs.getDestinationAirportCode());
+		assertEquals(seatingClass, fs.getSeatingClass());
+		assertEquals(departureDate, fs.getDepartureDate());
+		assertEquals(returnDate, fs.getReturnDate());
+		assertFalse(fs.isEmergencyRowSeating()); // should be false as set
 
 		// change to economy, 1 adult, no children or infants
 		// change departure and destination airport codes
@@ -389,8 +764,26 @@ class FlightSearchTest {
 		childPassengerCount = 0;
 		infantPassengerCount = 0;
 		
+		// check that the return value is true
 		assertTrue(fs.runFlightSearch(departureDate, departureAirportCode, 
 			emergencyRowSeating, returnDate, destinationAirportCode, 
 			seatingClass, adultPassengerCount, childPassengerCount, infantPassengerCount));
+		
+		// check that all the values are set correctly
+		assertEquals(adultPassengerCount, 
+									fs.getAdultPassengerCount());
+		assertEquals(childPassengerCount, 
+									fs.getChildPassengerCount());
+		assertEquals(infantPassengerCount, 
+									fs.getInfantPassengerCount());
+		assertEquals(departureAirportCode,
+									fs.getDepartureAirportCode());
+		assertEquals(destinationAirportCode,
+									fs.getDestinationAirportCode());
+		assertEquals(seatingClass, fs.getSeatingClass());
+		assertEquals(departureDate, fs.getDepartureDate());
+		assertEquals(returnDate, fs.getReturnDate());
+		assertTrue(fs.isEmergencyRowSeating()); // should be true as set
+
 	}
 }
