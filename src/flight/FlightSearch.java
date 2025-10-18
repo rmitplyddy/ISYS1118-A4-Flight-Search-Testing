@@ -51,19 +51,24 @@ public class FlightSearch {
       // validation processing based on 11 conditions
 
       // 1. total passenger validation
-      validatePassengerCounts(adultPassengerCount, childPassengerCount, infantPassengerCount, errors);
+      validatePassengerCounts(adultPassengerCount, childPassengerCount, 
+    		  					infantPassengerCount, errors);
 
       // 2. children seating validation
-      validateChildrenSeating(childPassengerCount, emergencyRowSeating, seatingClass, errors);
+      validateChildrenSeating(childPassengerCount, emergencyRowSeating, 
+    		  						seatingClass, errors);
 
       // 3. infant seating validation
-      validateInfantSeating(infantPassengerCount, emergencyRowSeating, seatingClass, errors);
+      validateInfantSeating(infantPassengerCount, emergencyRowSeating, 
+    		  				seatingClass, errors);
 
       // 4. children to adult ratio validation
-      validateChildrenToAdultRatio(childPassengerCount, adultPassengerCount, errors);
+      validateChildrenToAdultRatio(childPassengerCount, 
+    		  							adultPassengerCount, errors);
 
       // 5. infant to adult ratio validation
-      validateInfantToAdultRatio(infantPassengerCount, adultPassengerCount, errors);
+      validateInfantToAdultRatio(infantPassengerCount, 
+    		  							adultPassengerCount, errors);
 
       // 6, 7, 8. departure date, return date validation
       LocalDate depDate = parseDateString(departureDate, errors);
@@ -106,14 +111,15 @@ public class FlightSearch {
    // conditions 1: total passengers between 1 and 9
 
    public void validatePassengerCounts(int adultPassengerCount, 
-                     int childPassengerCount, int infantPassengerCount, List<String> errors) {
+                     int childPassengerCount, int infantPassengerCount, 
+                     				List<String> errors) {
       
-      if (adultPassengerCount < 0 || childPassengerCount < 0 ||  
-                                          infantPassengerCount < 0) {
+      if (childPassengerCount < 0 || infantPassengerCount < 0) {
          errors.add("Passenger counts cannot be negative");
       }
       else {
-         int totalPassengers = adultPassengerCount + childPassengerCount + infantPassengerCount;
+         int totalPassengers = adultPassengerCount + childPassengerCount 
+        		 								+ infantPassengerCount;
 
          if (totalPassengers < MIN_PASSENGERS || 
                                     totalPassengers > MAX_PASSENGERS) {
@@ -123,7 +129,7 @@ public class FlightSearch {
    }
 
 
-   //	Condition 2. Children cannot be seated in emergency row seating or first class. (inclusive of infants - first class?)
+   //	Condition 2. Children cannot be seated in emergency row seating or first class. 
 
    public void validateChildrenSeating(int childPassengerCount, 
                      boolean emergencyRowSeating, String seatingClass, List<String> errors) {
@@ -145,7 +151,8 @@ public class FlightSearch {
    }
 
 
-   // condition 4. All children (aged 2-11 years old) must be seated immediately next to at least one adult passenger 
+   // condition 4. All children (aged 2-11 years old) must be seated immediately 
+   // next to at least one adult passenger 
 
    public void validateChildrenToAdultRatio(int childPassengerCount, 
                      int adultPassengerCount, List<String> errors) {
@@ -155,7 +162,8 @@ public class FlightSearch {
    }
 
 
-   // condition 5. Each infant (<2 years old) must be seated on an accompanying adults lap (only one infant is allowed per adult)
+   // condition 5. Each infant (<2 years old) must be seated on an accompanying adults 
+   // lap (only one infant is allowed per adult)
 
    public void validateInfantToAdultRatio(int infantPassengerCount, 
                      int adultPassengerCount, List<String> errors) {
@@ -164,7 +172,8 @@ public class FlightSearch {
       }
    }
 
-   // condition 6. The departure date cannot be in the past (this is based on the current date when runFlightSearch method is called).
+   // condition 6. The departure date cannot be in the past (this is based on the current 
+   // date when runFlightSearch method is called).
 
    public void validateDepartureDate(LocalDate departureDate, List<String> errors) {
       if (departureDate.isBefore(LocalDate.now())) {
@@ -199,7 +208,8 @@ public class FlightSearch {
 
 
 
-   // condition 8. All flights are two way only (ie include return flights) and the return date cannot be before departure date.
+   // condition 8. All flights are two way only (ie include return flights) 
+   // and the return date cannot be before departure date.
 
    public void validateReturnDate(LocalDate departureDate, 
                      LocalDate returnDate, List<String> errors) {
@@ -208,7 +218,8 @@ public class FlightSearch {
       }
    }
 
-   // condition 9. The seating class must be one of ("economy', "premium economy", "business", "first").
+   // condition 9. The seating class must be one of ("economy', "premium economy", 
+   // "business", "first").
 
    public void validateSeatingClass(String seatingClass, List<String> errors) {
       ArrayList<String> validSeatingClasses = new ArrayList<>();
@@ -234,7 +245,8 @@ public class FlightSearch {
    }
 
 
-   // condition 11. Only the following airports are available: "syd" (Sydney), "mel" (Melbourne),
+   // condition 11. Only the following airports are available: 
+   // "syd" (Sydney), "mel" (Melbourne),
 
    public void validateAirportCode(String departureAirportCode, String arrivalAirportCode, List<String> errors) {
 

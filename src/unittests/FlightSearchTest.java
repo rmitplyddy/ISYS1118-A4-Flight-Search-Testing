@@ -122,6 +122,7 @@ class FlightSearchTest {
 					// -- End of Test case 1 -- //
 
 
+	
 
 
 
@@ -342,7 +343,7 @@ class FlightSearchTest {
 		// --- Check Departure date is NOT set in the past --- //
 
 	@Test
-	void rejectPastDepartureDate() {
+	void rejectOneDayPastDepartureDate() {
 
 		// PRE-condition check that all values are uninitialised
 		checkAttributesUninitialised();
@@ -361,6 +362,26 @@ class FlightSearchTest {
 		// check that all values remain unchanged
 		checkAttributesUninitialised();
 	}
+	
+	
+	@Test
+	void rejectSevenDaysPastDepartureDate() {
+
+		// PRE-condition check that all values are uninitialised
+		checkAttributesUninitialised();
+
+		// set departure date to 7 days in the past
+		departureDate = LocalDate.now().minusDays(7)
+				.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+
+		assertFalse(fs.runFlightSearch(departureDate, departureAirportCode,
+			emergencyRowSeating, returnDate, destinationAirportCode,
+			seatingClass, adultPassengerCount, childPassengerCount,
+			infantPassengerCount));
+		// check that all values remain unchanged
+		checkAttributesUninitialised();
+	}
+
 
 				// -- End of Test case 6 -- //
 
@@ -754,4 +775,47 @@ class FlightSearchTest {
 		checkAttributesInitialised();
 
 	}
+
+
+
+
+	// --- Test case 13 --- //
+
+	// --- Verify REJECTION of negative child passengers or negative infant inputs --- //
+
+	@Test
+	void rejectNegativeChildPassengers() {
+
+		// PRE-condition check that all values are uninitialised
+		checkAttributesUninitialised();
+
+		childPassengerCount = -1; // set to negative value
+		// check that the return value is false
+		assertFalse(fs.runFlightSearch(departureDate, departureAirportCode,
+			emergencyRowSeating, returnDate, destinationAirportCode,
+			seatingClass, adultPassengerCount, childPassengerCount,
+			infantPassengerCount));
+		// check that all values remain unchanged
+		checkAttributesUninitialised();
+	}
+
+
+	@Test
+	void rejectNegativeInfantPassengers() {	
+		// PRE-condition check that all values are uninitialised
+		checkAttributesUninitialised();
+		infantPassengerCount = -1; // set to negative value
+		// check that the return value is false
+		assertFalse(fs.runFlightSearch(departureDate, departureAirportCode,
+			emergencyRowSeating, returnDate, destinationAirportCode,
+			seatingClass, adultPassengerCount, childPassengerCount,
+			infantPassengerCount));
+		// check that all values remain unchanged
+		checkAttributesUninitialised();
+	}
+
+		// -- End of Test case 13 -- //
+
+
+
 }
