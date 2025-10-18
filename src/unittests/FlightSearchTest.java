@@ -510,8 +510,15 @@ class FlightSearchTest {
 		// check that all values remain unchanged
 		checkAttributesUninitialised();
 	}
+				// -- End of Test case 9 -- //
 
-	// Test Case 10 - Check emergency row seating INVALID for NON-ECONOMY classes
+
+
+
+					// --- Test Case 10 --- //
+
+	// --- Check emergency row seating INVALID for NON-ECONOMY classes --- //
+
 	@Test
 	void rejectEmergencyRowSeatingForNonEconomy() {
 		
@@ -608,6 +615,10 @@ class FlightSearchTest {
 	}
 
 
+
+
+
+
 				// -- End of Test case 11 -- //
 
 
@@ -616,6 +627,7 @@ class FlightSearchTest {
 	// --- Check the search flight function with VALID entries --- //
 
 	void checkAttributesInitialised() {
+		// method used to check that all attributes are initialised
 		assertEquals(adultPassengerCount, fs.getAdultPassengerCount());
 		assertEquals(childPassengerCount, fs.getChildPassengerCount());
 		assertEquals(infantPassengerCount, fs.getInfantPassengerCount());
@@ -628,7 +640,7 @@ class FlightSearchTest {
 	}
 
 	@Test
-	void acceptValidFlightSearch() {
+	void acceptValidFlightSearchOne() {
 
 		// PRE-condition check that all values are uninitialised
 		checkAttributesUninitialised();
@@ -661,7 +673,7 @@ class FlightSearchTest {
 	}
 
 	@Test
-	void acceptVariousValidFlightSearches() {
+	void acceptValidFlightSearchTwo() {
 
 		// PRE-condition check that all values are uninitialised
 		checkAttributesUninitialised();
@@ -688,7 +700,7 @@ class FlightSearchTest {
 	}
 
 	@Test
-	void acceptAnotherValidFlightSearch() {
+	void acceptValidFlightSearchThree() {
 
 		// PRE-condition check that all values are uninitialised
 		checkAttributesUninitialised();
@@ -716,7 +728,7 @@ class FlightSearchTest {
 
 
 	@Test
-	void acceptFinalValidFlightSearch() {
+	void acceptValidFlightSearchFour() {
 
 		// PRE-condition check that all values are uninitialised
 		checkAttributesUninitialised();
