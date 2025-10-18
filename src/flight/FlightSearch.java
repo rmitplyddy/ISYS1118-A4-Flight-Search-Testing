@@ -21,12 +21,25 @@ public class FlightSearch {
    private static final int MAX_PASSENGERS = 9;
    private static final int MIN_PASSENGERS = 1;
    private static final int MAX_CHILDREN_PER_ADULT = 2;
+   private static final int SENTINAL_VALUE = -999;
 
 
+   public FlightSearch() {
+      // initialise to int attributes to a sentinal value
+      // this will indicate an uninitialised state
+      // java default for int is 0 - which is a valid passenger count
+      this.adultPassengerCount = SENTINAL_VALUE;
+      this.childPassengerCount = SENTINAL_VALUE;
+      this.infantPassengerCount = SENTINAL_VALUE;
+   }
+   
+   
    public boolean runFlightSearch(String departureDate, String departureAirportCode, 
 		   				boolean emergencyRowSeating, String returnDate, String destinationAirportCode, 
 		   				String seatingClass, int adultPassengerCount, int childPassengerCount, 
 		   				int infantPassengerCount) {
+
+
 
       boolean valid = true;
 
@@ -86,9 +99,6 @@ public class FlightSearch {
       } 
       else {
          valid = false;
-         this.adultPassengerCount = -99;
-         this.childPassengerCount = -99;
-         this.infantPassengerCount = -99;
       }
       return valid;
    }
@@ -249,7 +259,9 @@ public class FlightSearch {
 
 
 
-
+   public static int getSentinalValue() {
+	   return SENTINAL_VALUE;
+   }
 
 
 
